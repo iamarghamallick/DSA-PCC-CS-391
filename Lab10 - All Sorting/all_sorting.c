@@ -45,20 +45,20 @@ void selection(int arr[], int n)
 int partition(int arr[], int low, int high)
 {
     int pivot = arr[low]; // Choose the first element as the pivot
-    int i = low;
-
-    for (int j = low + 1; j <= high; j++)
+    int i = low + 1;
+    int j = high;
+    do
     {
-        // If the current element is smaller than the pivot
-        if (arr[j] < pivot)
-        {
+        while (arr[i] <= pivot)
             i++;
+        while (arr[j] > pivot)
+            j--;
+        if (i < j)
             swap(&arr[i], &arr[j]);
-        }
-    }
+    } while (i < j);
 
-    swap(&arr[low], &arr[i]);
-    return i;
+    swap(&arr[low], &arr[j]);
+    return j;
 }
 
 void quicksort(int arr[], int low, int high)
