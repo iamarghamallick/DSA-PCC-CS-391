@@ -36,6 +36,15 @@ struct TreeNode *inOrderPredecessor(struct TreeNode *root)
     return root;
 }
 
+struct TreeNode *inOrderSuccessor(struct TreeNode *root)
+{
+    // leftmost leaf node of the right sub-tree
+    root = root->right;
+    while (root->left != NULL)
+        root = root->left;
+    return root;
+}
+
 struct TreeNode *delete(struct TreeNode *root, int key)
 {
     struct TreeNode *iPre;

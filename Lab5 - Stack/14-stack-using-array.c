@@ -4,21 +4,17 @@ int stack[MAX], top = -1;
 
 int isEmpty()
 {
-    if (top == -1)
-        return 1;
-    return 0;
+    return top == -1;
 }
 
 int isFull()
 {
-    if (top == MAX - 1)
-        return 1;
-    return 0;
+    return top == MAX - 1;
 }
 
 void push(int data)
 {
-    if (top == MAX - 1)
+    if (isFull())
     {
         printf("Stack Overflow!\n");
         return;
@@ -29,7 +25,7 @@ void push(int data)
 
 void pop()
 {
-    if (top == -1)
+    if (isEmpty())
     {
         printf("Stack Underflow!\n");
         return;
@@ -39,7 +35,7 @@ void pop()
 
 int peek()
 {
-    if (top == -1)
+    if (isEmpty())
     {
         printf("Stack is Empty\n");
         return -1;

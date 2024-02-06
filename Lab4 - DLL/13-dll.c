@@ -1,110 +1,138 @@
 #include <stdio.h>
 #include <stdlib.h>
-struct Node {
+struct Node
+{
   int data;
   struct Node *next;
   struct Node *prev;
 };
-struct Node *createSLL(int value) {
+struct Node *createDLL(int value)
+{
   struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
   newNode->data = value;
   newNode->next = NULL;
   newNode->prev = NULL;
   return newNode;
 }
-void addAtBeginning(struct Node **head, int value) {
-  struct Node *newNode = createSLL(value);
+void addAtBeginning(struct Node **head, int value)
+{
+  struct Node *newNode = createDLL(value);
   newNode->next = *head;
-  if (*head != NULL) {
+  if (*head != NULL)
+  {
     (*head)->prev = newNode;
   }
   *head = newNode;
 }
-void addAtEnd(struct Node **head, int value) {
-  struct Node *newNode = createSLL(value);
+void addAtEnd(struct Node **head, int value)
+{
+  struct Node *newNode = createDLL(value);
   struct Node *curr = *head;
-  while (curr->next != NULL) {
+  while (curr->next != NULL)
+  {
     curr = curr->next;
   }
   curr->next = newNode;
   newNode->prev = curr;
 }
-void addAtIntermediate(struct Node *prevNode, int value) {
-  if (prevNode == NULL) {
+void addAtIntermediate(struct Node *prevNode, int value)
+{
+  if (prevNode == NULL)
+  {
     printf("Clouldn't add. The given node doesn't exist.\n");
     return;
   }
-  struct Node *newNode = createSLL(value);
+  struct Node *newNode = createDLL(value);
   newNode->next = prevNode->next;
-  if (prevNode->next != NULL) {
+  if (prevNode->next != NULL)
+  {
     prevNode->next->prev = newNode;
   }
   newNode->prev = prevNode;
   prevNode->next = newNode;
 }
-void deleteFromBeginning(struct Node **head) {
-  if (*head == NULL) {
+void deleteFromBeginning(struct Node **head)
+{
+  if (*head == NULL)
+  {
     printf("List is empty!\n");
     return;
   }
   struct Node *temp = *head;
   *head = (*head)->next;
-  if (*head != NULL) {
+  if (*head != NULL)
+  {
     (*head)->prev = NULL;
   }
   free(temp);
 }
-void deleteFromEnd(struct Node **head) {
-  if (*head == NULL) {
+void deleteFromEnd(struct Node **head)
+{
+  if (*head == NULL)
+  {
     printf("List is Empty.\n");
     return;
   }
   struct Node *curr = *head;
-  while (curr->next != NULL) {
+  while (curr->next != NULL)
+  {
     curr = curr->next;
   }
-  if (curr->prev != NULL) {
+  if (curr->prev != NULL)
+  {
     curr->prev->next = NULL;
-  } else {
+  }
+  else
+  {
     *head = NULL;
   }
   free(curr);
 }
-void deleteFromIntermediate(struct Node **head, struct Node *toDel) {
-  if (*head == NULL || toDel == NULL) {
+void deleteFromIntermediate(struct Node **head, struct Node *toDel)
+{
+  if (*head == NULL || toDel == NULL)
+  {
     printf("Clouldn't delete. The given node doesn't exixt.\n");
     return;
   }
-  if (*head == toDel) {
+  if (*head == toDel)
+  {
     *head = (*head)->next;
   }
-  if (toDel->next != NULL) {
+  if (toDel->next != NULL)
+  {
     toDel->next->prev = toDel->prev;
   }
-  if (toDel->prev != NULL) {
+  if (toDel->prev != NULL)
+  {
     toDel->prev->next = toDel->next;
   }
   free(toDel);
 }
-void displaySLL(struct Node *head) {
+void displaySLL(struct Node *head)
+{
   struct Node *curr = head;
   printf("NULL <-> ");
-  while (curr != NULL) {
+  while (curr != NULL)
+  {
     printf("%d <-> ", curr->data);
     curr = curr->next;
   }
   printf("NULL\n");
 }
-int main() {
+int main()
+{
   struct Node *head = NULL;
   int choise, value, prevValue;
-  do {
+  do
+  {
     printf("<--:: MAIN MENU ::-->\n1. Add At Beginning\n2. Add At End\n3. "
            "Display DLL\n4. Add At Intermediate\n5. Delete from Beginning\n6. "
            "Delete From End\n7. Delete from Intermediate\n0. Exit\n\nENTER "
            "YOUR CHOISE ::-->> ");
     scanf("%d", &choise);
-    switch (choise) {
+    switch (choise)
+    {
     case 1:
       printf("Enter the value: ");
       scanf("%d", &value);
@@ -129,7 +157,8 @@ int main() {
       printf("Enter the value after which you want to add: ");
       scanf("%d", &prevValue);
       struct Node *curr = head;
-      while (curr->data != prevValue) {
+      while (curr->data != prevValue)
+      {
         curr = curr->next;
       }
       struct Node *prevNode = curr;
@@ -151,7 +180,8 @@ int main() {
       printf("Enter the value to be deleted: ");
       scanf("%d", &value);
       struct Node *curr2 = head;
-      while (curr2->data != value) {
+      while (curr2->data != value)
+      {
         curr2 = curr2->next;
       }
       struct Node *toDel = curr2;
@@ -166,4 +196,3 @@ int main() {
     }
   } while (choise != 0);
 }
-

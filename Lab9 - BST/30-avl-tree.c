@@ -10,21 +10,21 @@ struct Node
     int height;
 };
 
-int getHeight(struct Node *n)
+int getHeight(struct Node *node)
 {
-    if (n == NULL)
+    if (node == NULL)
         return 0;
-    return n->height;
+    return node->height;
 }
 
 struct Node *createNode(int key)
 {
-    struct Node *node = (struct Node *)malloc(sizeof(struct Node));
-    node->key = key;
-    node->left = NULL;
-    node->right = NULL;
-    node->height = 1;
-    return node;
+    struct Node *nn = (struct Node *)malloc(sizeof(struct Node));
+    nn->key = key;
+    nn->left = NULL;
+    nn->right = NULL;
+    nn->height = 1;
+    return nn;
 }
 
 int getBalanceFactor(struct Node *n)

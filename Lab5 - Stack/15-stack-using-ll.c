@@ -22,11 +22,7 @@ struct Node *create(int value)
 
 int isEmpty(struct Stack *stack)
 {
-    if (stack->top == NULL)
-    {
-        return 1;
-    }
-    return 0;
+    return stack->top == NULL;
 }
 
 void push(struct Stack *stack, int data)
@@ -38,7 +34,7 @@ void push(struct Stack *stack, int data)
 
 void pop(struct Stack *stack)
 {
-    if (stack->top == NULL)
+    if (isEmpty(stack))
     {
         printf("Stack Underflow\n");
         return;
@@ -49,7 +45,10 @@ void pop(struct Stack *stack)
     free(temp);
 }
 
-int peek(struct Stack *stack) { return stack->top->data; }
+int peek(struct Stack *stack)
+{
+    return stack->top->data;
+}
 
 void display(struct Stack *stack)
 {

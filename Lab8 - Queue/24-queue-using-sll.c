@@ -44,7 +44,9 @@ int dequeue()
     }
     struct Node *toDelete = front;
     front = front->next;
-    return toDelete->data;
+    int val = toDelete->data;
+    free(toDelete);
+    return val;
 }
 
 void display()

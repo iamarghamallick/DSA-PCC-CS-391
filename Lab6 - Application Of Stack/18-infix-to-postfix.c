@@ -80,7 +80,7 @@ void infixToPostfix(char exp[])
             output[outputIndex++] = item;
         else if (isOperator(item))
         {
-            while (!isEmpty() && precedence(item) <= precedence(st[top]))
+            while (!isEmpty() && precedence(st[top]) >= precedence(item))
             {
                 output[outputIndex++] = pop();
             }
