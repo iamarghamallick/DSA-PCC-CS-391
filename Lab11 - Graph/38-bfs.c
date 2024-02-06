@@ -1,30 +1,83 @@
-// Write a C program for implementing breadth first search (BFS) in a graph
-
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX_VERTICES 100
+#define MAX 100
 
-// Function to perform Breadth-First Search
-void bfs(int graph[MAX_VERTICES][MAX_VERTICES], int vertices, int start)
+int q[MAX];
+int front = -1;
+int rear = -1;
+
+int isEmpty()
 {
-    int queue[MAX_VERTICES];
-    int visited[MAX_VERTICES] = {0};
-    int front = -1, rear = -1;
+    return front == -1 && rear == -1;
+}
 
-    queue[++rear] = start;
-    visited[start] = 1;
+int isFull()
+{
+    return rear == MAX - 1;
+}
 
-    while (front != rear)
+void enqueue(int data)
+{
+    if (isFull())
     {
-        int currentVertex = queue[++front];
-        printf("%d ", currentVertex);
+        printf("Overflow\n");
+        return;
+    }
+    if (front == -1)
+        front = 0;
+    q[++rear] = data;
+}
 
-        for (int i = 0; i < vertices; ++i)
+int dequeue()
+{
+    if (isEmpty())
+    {
+        printf("Underflow\n");
+        exit(0);
+    }
+    if (front == rear)
+    {
+        int temp = q[front];
+        front = rear = -1;
+        return temp;
+    }
+    int temp = q[front++];
+    return temp;
+}
+
+// BFS Implementation
+// Algorithm:
+//      Mark all nodes as unvisited
+//      Mark start node as visited
+//      enqueue(start node)
+//      while (Queue is not empty) {
+//      node = deque();
+//          for each unvisited neighbour v of node {
+//              mark v as visited;
+//              enqueue(v);
+//          }
+//      }
+
+void bfs(int *g, int size, int start)
+{
+    int visited[size];
+    for (int i = 0; i < size; i++)
+        visited[i] = 0;
+
+    printf("%d ", start);
+    visited[start] = 1;
+    enqueue(start); // enqueue start vertex for exploration
+
+    while (!isEmpty())
+    {
+        int node = dequeue();
+        for (int i = 0; i < size; i++)
         {
-            if (graph[currentVertex][i] == 1 && !visited[i])
+            if (*(g + node * size + i) == 1 && visited[i] == 0)
             {
-                queue[++rear] = i;
+                printf("%d ", i);
                 visited[i] = 1;
+                enqueue(i);
             }
         }
     }
@@ -32,39 +85,89 @@ void bfs(int graph[MAX_VERTICES][MAX_VERTICES], int vertices, int start)
 
 int main()
 {
-    int vertices = 5, edges = 4;
-    // printf("Enter the number of vertices: ");
-    // scanf("%d", &vertices);
+    int size = 7;  // total number of vertices
+    int start = 0; // starting vertex ( any valid vertex )
+    int g[7][7] = {
+        {0, 1, 1, 1, 0, 0, 0},
+        {1, 0, 1, 0, 0, 0, 0},
+        {1, 1, 0, 1, 0, 0, 0},
+        {1, 0, 1, 0, 1, 0, 0},
+        {0, 0, 1, 1, 0, 1, 1},
+        {0, 0, 0, 0, 1, 0, 0},
+        {0, 0, 0, 0, 1, 0, 0}}; // adjacency matrix of our graph [https://cwh-full-next-space.fra1.digitaloceanspaces.com/videos/data-structures-and-algorithms-in-hindi-87/Image_2.webp]
 
-    // int graph[MAX_VERTICES][MAX_VERTICES] = {0};
-
-    int graph[MAX_VERTICES][MAX_VERTICES] = {{0, 1, 1, 0, 0},
-                                             {1, 0, 1, 1, 0},
-                                             {1, 1, 0, 0, 1},
-                                             {0, 1, 0, 0, 1},
-                                             {0, 0, 1, 1, 0}};
-
-    // printf("Enter the number of edges: ");
-    // scanf("%d", &edges);
-
-    // printf("Enter the edges (format: vertex1 vertex2):\n");
-    // for (int i = 0; i < edges; ++i)
-    // {
-    //     int vertex1, vertex2;
-    //     scanf("%d %d", &vertex1, &vertex2);
-    //     graph[vertex1][vertex2] = 1;
-    //     graph[vertex2][vertex1] = 1; // Assuming an undirected graph
-    // }
-
-    int startVertex = 0;
-    // printf("Enter the starting vertex for BFS: ");
-    // scanf("%d", &startVertex);
-
-    printf("BFS traversal starting from vertex %d: ", startVertex);
-    bfs(graph, vertices, startVertex);
+    bfs(&g[0][0], size, start); // funciton call
 
     return 0;
 }
+
+// // Write a C program for implementing breadth first search (BFS) in a graph
+
+// #include <stdio.h>
+// #include <stdlib.h>
+// #define MAX_VERTICES 100
+
+// // Function to perform Breadth-First Search
+// void bfs(int graph[MAX_VERTICES][MAX_VERTICES], int vertices, int start)
+// {
+//     int queue[MAX_VERTICES];
+//     int visited[MAX_VERTICES] = {0};
+//     int front = -1, rear = -1;
+
+//     queue[++rear] = start;
+//     visited[start] = 1;
+
+//     while (front != rear)
+//     {
+//         int currentVertex = queue[++front];
+//         printf("%d ", currentVertex);
+
+//         for (int i = 0; i < vertices; ++i)
+//         {
+//             if (graph[currentVertex][i] == 1 && !visited[i])
+//             {
+//                 queue[++rear] = i;
+//                 visited[i] = 1;
+//             }
+//         }
+//     }
+// }
+
+// int main()
+// {
+//     int vertices = 5, edges = 4;
+//     // printf("Enter the number of vertices: ");
+//     // scanf("%d", &vertices);
+
+//     // int graph[MAX_VERTICES][MAX_VERTICES] = {0};
+
+//     int graph[MAX_VERTICES][MAX_VERTICES] = {{0, 1, 1, 0, 0},
+//                                              {1, 0, 1, 1, 0},
+//                                              {1, 1, 0, 0, 1},
+//                                              {0, 1, 0, 0, 1},
+//                                              {0, 0, 1, 1, 0}};
+
+//     // printf("Enter the number of edges: ");
+//     // scanf("%d", &edges);
+
+//     // printf("Enter the edges (format: vertex1 vertex2):\n");
+//     // for (int i = 0; i < edges; ++i)
+//     // {
+//     //     int vertex1, vertex2;
+//     //     scanf("%d %d", &vertex1, &vertex2);
+//     //     graph[vertex1][vertex2] = 1;
+//     //     graph[vertex2][vertex1] = 1; // Assuming an undirected graph
+//     // }
+
+//     int startVertex = 0;
+//     // printf("Enter the starting vertex for BFS: ");
+//     // scanf("%d", &startVertex);
+
+//     printf("BFS traversal starting from vertex %d: ", startVertex);
+//     bfs(graph, vertices, startVertex);
+
+//     return 0;
+// }
 
 // #include <stdbool.h>
 // #include <stdio.h>
